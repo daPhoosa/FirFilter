@@ -22,7 +22,7 @@
 
 	
 
-FirFilter::FirFilter(byte filterSize, int cutOffFreq, int sampleFreq)
+FirFilter::FirFilter(byte filterSize, int cutOffFreq, int sampleFreq) // initialize filter
 {	
 
 	if(!(B00000001 & filterSize)) filterSize++;	// window size must be odd
@@ -61,7 +61,7 @@ FirFilter::FirFilter(byte filterSize, int cutOffFreq, int sampleFreq)
 }
 
 
-int FirFilter::in(int value) // on 16Mhz Arduino: 8us
+int FirFilter::in(int value) // data input function
 {  
 	
 	DataList[OldestDataPoint] = value; // replace oldest data in list
