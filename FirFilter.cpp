@@ -7,10 +7,10 @@
   
   http://www.labbookpages.co.uk/audio/firWindowing.html
   
-	!!! All data must be type INT.  !!!
+	!!! All input data must be type INT.  !!!
 	
 	Processing Time on an 16Mhz Arduino
-	7 window  = 49us
+	7 window  = 48us
 	9 window  = 61us
 	11 Window = 73us
 	13 Window = 86us
@@ -69,10 +69,10 @@ int FirFilter::in(int value) // on 16Mhz Arduino: 8us
 	// multiply sample by coefficient
 	result.L = mul(DataList[OldestDataPoint], CoefList[0]);
 	
-	for(int i = 1; i < filterWindowSize; i++) // iterate through the rest of the data
+	for(int i = 1; i < filterWindowSize; i++) // iterate through the rest of the data (stopping one short of start point)
 	{
 		OldestDataPoint++;	// increment and wrap pointer
-		if(OldestDataPoint >= filterWindowSize)  OldestDataPoint = 0;
+		if(OldestDataPoint == filterWindowSize)  OldestDataPoint = 0;
 		
 		// multiply sample by coefficient 
 		result.L += mul(DataList[OldestDataPoint], CoefList[i]);
