@@ -10,8 +10,11 @@
 	!!! All data must be type INT.  !!!
 	
 	Processing Time on an 16Mhz Arduino
-	7 window = 44us
-	9 window = 55us
+	7 window  = 49us
+	9 window  = 61us
+	11 Window = 73us
+	13 Window = 86us
+	21 Window = 137us
  
 */
 
@@ -45,14 +48,14 @@ FirFilter::FirFilter(byte filterSize, int cutOffFreq, int sampleFreq)
 		{	
 			weight = sin(6.2832f * normalizedCutoff * stepsFromCenter) / (3.1416 * stepsFromCenter);
 		}
-		else								// center point
+		else						// center point
 		{
 			weight = 2.0f * normalizedCutoff;
 		}
 		
 		weight *= 0.54f - 0.46f * cos(6.2832f * float(n) / float(filterSize - 1)); // apply Hamming window to reduce ringing 
 
-		CoefList[n] = int(weight * 32767.0f);	// offset by 15bits, convert to int
+		CoefList[n] = int(weight * 32767.0f);	// offset by 15bits, convert to INT
 	}
 
 }
@@ -63,17 +66,19 @@ int FirFilter::in(int value) // on 16Mhz Arduino: 8us
 	
 	DataList[OldestDataPoint] = value; // replace oldest data in list
 	
-	// multiply sample by coefficient (bitshift to make up for non 16bit coefficient offset)
-	result.L = mul(DataList[OldestDataPoint], CoefList[0]) << 1;
+	// multiply sample by coefficient
+	result.L = mul(DataList[OldestDataPoint], CoefList[0]);
 	
-	for(int i = 1; i < filterWindowSize; i++)
+	for(int i = 1; i < filterWindowSize; i++) // iterate through the rest of the data
 	{
 		OldestDataPoint++;	// increment and wrap pointer
 		if(OldestDataPoint >= filterWindowSize)  OldestDataPoint = 0;
 		
-		// multiply sample by coefficient (bitshift to make up for non 16bit coefficient offset)
-		result.L += mul(DataList[OldestDataPoint], CoefList[i]) << 1;
+		// multiply sample by coefficient 
+		result.L += mul(DataList[OldestDataPoint], CoefList[i]);
 	}
+	
+	result.L = result.L << 1; // bitshift to make up for non 16bit coefficient offset
 	
 	return result.I[1];
 }
