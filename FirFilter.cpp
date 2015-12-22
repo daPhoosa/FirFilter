@@ -67,7 +67,7 @@ int FirFilter::in(int value) // data input function
 	DataList[OldestDataPoint] = value; // replace oldest data in list
 	
 	// multiply sample by coefficient
-	result.L = mul(DataList[OldestDataPoint], CoefList[0]); // accumulate data in a Long to eliminate round errors
+	result.L = mul(DataList[OldestDataPoint], CoefList[0]); // accumulate data in a Long to eliminate rounding errors
 	
 	for(int i = 1; i < filterWindowSize; i++) // iterate through the rest of the data (stopping one short of start point)
 	{
@@ -80,7 +80,7 @@ int FirFilter::in(int value) // data input function
 	
 	result.L = result.L << 1; // bitshift to make up for non 16bit coefficient offset
 	
-	return result.I[1]; // the H16 part of the Long is our result
+	return result.I[1]; // the H16 part of the Long is the result
 }
 
 

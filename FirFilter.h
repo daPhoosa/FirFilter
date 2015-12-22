@@ -18,7 +18,8 @@
 			int in(int value);
 			int out();
 		
-		private: 
+		
+		private:
 			int32_t mul(int16_t a, int16_t b);
 			
 			byte filterWindowSize;	// number of samples window	
