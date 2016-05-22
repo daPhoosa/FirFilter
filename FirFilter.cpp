@@ -46,7 +46,7 @@ FirFilter::FirFilter(byte filterSize, int cutOffFreq, int sampleFreq) // initial
 		
 		if(n != filterOrderHalf)	// either side of center
 		{	
-			weight = sin(6.2832f * normalizedCutoff * stepsFromCenter) / (3.1416 * stepsFromCenter);
+			weight = sin(6.2831853f * normalizedCutoff * stepsFromCenter) / (3.14159265f * stepsFromCenter);
 		}
 		else						// center point
 		{
