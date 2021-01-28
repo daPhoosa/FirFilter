@@ -61,6 +61,13 @@ FirFilter::FirFilter(byte filterSize, int cutOffFreq, int sampleFreq) // initial
 }
 
 
+FirFilter::~FirFilter()
+{
+	free(DataList);
+	free(CoefList);
+}
+
+
 int FirFilter::in(int value) // data input function
 {  
 	

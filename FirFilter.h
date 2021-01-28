@@ -15,6 +15,7 @@
 	
 		public: 
 			FirFilter(byte filterSize, int cutOffFreq, int sampleFreq);
+			~FirFilter();
 			int in(int value);
 			int out();
 		
